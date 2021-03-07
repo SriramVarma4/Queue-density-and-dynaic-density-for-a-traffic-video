@@ -79,3 +79,24 @@ ofstream table("out.txt");
 			
 			pBackSub->apply(f_crop, fgmask, .04);
 			//imshow("fgmask", fgmask);
+				    	for(int y=0; y<rows; y++){
+    	    for(int x=0; x<cols; x++)
+        	{
+	    	    Vec3b & fc = f_crop.at<Vec3b>(Point(x,y));
+    		    Vec3b & bc = back_crop.at<Vec3b>(Point(x,y));
+    	    	/*int c1,c2,c0;
+    		    c0 = abs(fc[0]-bc[0]);
+	    	    c1 = abs(fc[1] - bc[1]);
+    		    c2 = abs(fc[2]-bc[2]);*/
+        		if( abs(fc[2]-bc[2])> 60 || abs(fc[1]-bc[1]) > 60 || abs(fc[0]-bc[0]) > 60)
+        		{
+	            	/*fc[0] = 230;
+    	        	fc[1] = 230;
+        	    	fc[2] = 230;*/
+        	    	qd++;
+    	    	}
+        		Vec3b & dc = fgmask.at<Vec3b>(Point(x,y));
+        		if (dc[0] > 200){
+        			dd++;
+        		}
+	    	}
