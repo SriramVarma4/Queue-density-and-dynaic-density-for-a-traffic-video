@@ -79,15 +79,15 @@ ofstream table("out.txt");
 			
 			pBackSub->apply(f_crop, fgmask, .04);
 			//imshow("fgmask", fgmask);
-		for(int y=0; y<rows; y++){
-    	        for(int x=0; x<cols; x++)
+	    for(int y=0; y<rows; y++){
+    	    	for(int x=0; x<cols; x++)
         	{
-	    	        Vec3b & fc = f_crop.at<Vec3b>(Point(x,y));
-    		        Vec3b & bc = back_crop.at<Vec3b>(Point(x,y));
-    	    	        /*int c1,c2,c0;
-    		        c0 = abs(fc[0]-bc[0]);
-	    	        c1 = abs(fc[1] - bc[1]);
-    		        c2 = abs(fc[2]-bc[2]);*/
+	    	    Vec3b & fc = f_crop.at<Vec3b>(Point(x,y));
+    		    Vec3b & bc = back_crop.at<Vec3b>(Point(x,y));
+    	    	/*int c1,c2,c0;
+    		    c0 = abs(fc[0]-bc[0]);
+	    	    c1 = abs(fc[1] - bc[1]);
+    		    c2 = abs(fc[2]-bc[2]);*/
         		if( abs(fc[2]-bc[2])> 60 || abs(fc[1]-bc[1]) > 60 || abs(fc[0]-bc[0]) > 60)
         		{
 	            	/*fc[0] = 230;
@@ -100,3 +100,21 @@ ofstream table("out.txt");
         			dd++;
         		}
 	    	}
+		}
+			//imshow("cropped", f_crop);
+        	if (waitKey(10) == 27){
+				cout << "Esc key is pressed by user. Stoppig the video" << endl;
+				table.close();
+				return 0;
+  			}
+  		}else if(fm_count%5 == 3){
+  			//table << dd/10000.0 << ',' /*<< qd/25000.0 << ',' */<< (fm_count -2)/15.0 << endl;
+  			table << fm_count -2 << ',' << qd/16000.0 << ',' << dd/6000.0 << endl;
+  			qd=0; dd=0;
+  		}
+  		fm_count++;
+
+	}
+	table.close();
+	cout<<"done\n";
+}	
