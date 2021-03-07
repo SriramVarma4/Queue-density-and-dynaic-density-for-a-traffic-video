@@ -58,3 +58,24 @@ int main(int argc,char* argv[]){
 	pBackSub = createBackgroundSubtractorMOG2();
 	Mat fgmask;
 	Mat frame;
+ofstream table("out.txt");
+	table<< "framenum , queue density , dynamic density\n";
+	int qd = 0; //measure of queue density
+	int dd = 0; //measure of dynamic density
+
+	while (true){
+		bool next = cap.read(frame);
+			if (next==false){
+				cout<<"end of video\n";
+				break;
+			}
+		if(fm_count%5 == 1){
+
+			//warped image
+    		Mat warp_frame;
+    		warpPerspective(frame, warp_frame, h, back_image.size());
+    		// Display image
+			f_crop = warp_frame(Rect(0, 0, 400, 800));
+			
+			pBackSub->apply(f_crop, fgmask, .04);
+			//imshow("fgmask", fgmask);
